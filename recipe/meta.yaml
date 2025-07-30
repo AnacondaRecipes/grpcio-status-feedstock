@@ -1,5 +1,5 @@
 {% set name = "grpcio-status" %}
-{% set version = "1.62.2" %}
+{% set version = "1.71.0" %}
 
 
 package:
@@ -7,13 +7,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/grpcio-status-{{ version }}.tar.gz
-  sha256: 62e1bfcb02025a1cd73732a2d33672d3e9d0df4d21c12c51e0bbcaf09bab742a
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: 11405fed67b68f406b3f3c7c5ae5104a79d2d309666d10d61b152e91d28fb968
 
 build:
   number: 0
-  skip: true  # [py<36]
-  skip: true  # [linux and s390x]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -24,8 +23,8 @@ requirements:
     - wheel
   run:
     - python
-    - protobuf >=4.21.6
-    - grpcio >=1.62.2
+    - protobuf >=5.26.1,<6.0dev
+    - grpcio >={{ version }}
     - googleapis-common-protos >=1.5.5
 
 test:
@@ -33,6 +32,7 @@ test:
     - grpc_status
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
   requires:
     - pip
 
