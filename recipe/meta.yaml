@@ -22,8 +22,8 @@ requirements:
     - wheel
   run:
     - python
-    - protobuf {{ libprotobuf }}
-    - grpcio >={{ libgrpc }}.0
+    - protobuf >=6.33.5,<8.0.0
+    - grpcio >={{ version }}
     - googleapis-common-protos >=1.5.5
 
 test:
